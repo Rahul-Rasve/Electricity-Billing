@@ -2,13 +2,16 @@ package elecricity.billing.system;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Objects;
 
-public class LoginFrame extends JFrame {
+public class LoginFrame extends JFrame implements ActionListener {
 
-    private JTextField usernameText;
-    private JTextField passwordText;
+    private JTextField usernameText, passwordText;
     private JComboBox<String> userTypeOption;
+
+    private JButton loginButton, cancelButton, signupButton;
 
     public String getUsernameText() {
         return usernameText.getText();
@@ -23,7 +26,7 @@ public class LoginFrame extends JFrame {
     }
 
     LoginFrame() {
-        super("Login Page");
+        super("Login");
         getContentPane().setBackground(new Color(176, 196, 222)); //blue grey color
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -59,10 +62,25 @@ public class LoginFrame extends JFrame {
         userType.setBounds(frameWidth/2+70, frameHeight/8+120, frameWidth/8, frameHeight/20);
         add(userType);
 
-        String[] options = {"Admin", "User"};
+        String[] options = {"Admin", "Customer"};
         userTypeOption = new JComboBox<>(options);
         userTypeOption.setBounds(frameWidth/2+frameWidth/5 ,frameHeight/8+120, frameWidth/6, frameHeight/20);
         add(userTypeOption);
+
+        loginButton = new JButton("Login");
+        loginButton.setBounds(frameWidth/2+frameWidth/9 ,frameHeight/8+180, frameWidth/8, frameHeight/20);
+        loginButton.addActionListener(this);
+        add(loginButton);
+
+        signupButton = new JButton("SignUp");
+        signupButton.setBounds(frameWidth/2+frameWidth/5 ,frameHeight/8+250, frameWidth/8, frameHeight/20);
+        signupButton.addActionListener(this);
+        add(signupButton);
+
+        cancelButton = new JButton("Cancel");
+        cancelButton.setBounds(frameWidth/2+frameWidth/4+20 ,frameHeight/8+180, frameWidth/8, frameHeight/20);
+        cancelButton.addActionListener(this);
+        add(cancelButton);
 
         //frame parameters
         setResizable(false);
@@ -70,6 +88,20 @@ public class LoginFrame extends JFrame {
         setLocationRelativeTo(null);
         setLayout(null);
         setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == signupButton){
+            dispose();
+            new SignUpFrame();
+        }
+        else if(e.getSource() == cancelButton){
+            dispose();
+        }
+        else{
+
+        }
     }
 
     public static void main(String[] args) {
