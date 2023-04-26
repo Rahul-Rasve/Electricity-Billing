@@ -1,4 +1,6 @@
-package elecricity.billing.system;
+package elecricity.billing.system.frames;
+
+import elecricity.billing.system.server.Database;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +15,7 @@ public class SignUpFrame extends JFrame implements ActionListener {
 
     private JButton signupButton, backButton;
 
-    private JTextField meterNum, userNameText, nameText, passwordText, empId, confirmPasswordText;
+    private JTextField userId, userNameText, nameText, passwordText, confirmPasswordText;
 
     SignUpFrame(){
         super("Sign-Up");
@@ -51,20 +53,15 @@ public class SignUpFrame extends JFrame implements ActionListener {
         meterNumber.setVisible(false);
         add(meterNumber);
 
-        meterNum = new JTextField(5);
-        meterNum.setBounds(frameWidth/2+frameWidth/4, frameHeight/10+80, frameWidth/6, frameHeight/20);
-        meterNum.setVisible(false);
-        add(meterNum);
-
         JLabel employeeId = new JLabel("Employee Id:");
         employeeId.setBounds(frameWidth/2+70, frameHeight/10+80, frameWidth/8, frameHeight/20);
         employeeId.setVisible(true);
         add(employeeId);
 
-        empId = new JTextField(5);
-        empId.setBounds(frameWidth/2+frameWidth/4, frameHeight/10+80, frameWidth/6, frameHeight/20);
-        empId.setVisible(true);
-        add(empId);
+        userId = new JTextField(5);
+        userId.setBounds(frameWidth/2+frameWidth/4, frameHeight/10+80, frameWidth/6, frameHeight/20);
+        userId.setVisible(true);
+        add(userId);
 
         JLabel userName = new JLabel("Username:");
         userName.setBounds(frameWidth/2+70, frameHeight/10+120, frameWidth/8, frameHeight/20);
@@ -113,15 +110,11 @@ public class SignUpFrame extends JFrame implements ActionListener {
             public void itemStateChanged(ItemEvent e) {
                 if(optionValue.getSelectedItem() == "Admin"){
                     meterNumber.setVisible(false);
-                    meterNum.setVisible(false);
                     employeeId.setVisible(true);
-                    empId.setVisible(true);
                 }
                 else{
                     employeeId.setVisible(false);
-                    empId.setVisible(false);
                     meterNumber.setVisible(true);
-                    meterNum.setVisible(true);
                 }
             }
         });
@@ -134,9 +127,33 @@ public class SignUpFrame extends JFrame implements ActionListener {
         setVisible(true);
     }
 
+    public boolean checkForNull(){
+        return !userId.getText().equals("") &&
+                !userNameText.getText().equals("") &&
+                !nameText.getText().equals("") &&
+                !passwordText.getText().equals("") &&
+                !confirmPasswordText.getText().equals("");
+    }
+
     @Override
-    public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == signupButton){
+    public void actionPerformed(ActionEvent event) {
+        if(event.getSource() == signupButton){
+            if(passwordText.getText().equals(confirmPasswordText.getText()) && checkForNull()){
+                String user = optionValue.getSelectedItem().toString();
+                try {
+                    Database db = new Database();
+                    String insertQuery = "INSERT INTO SignUp VALUES ('%s', '%s', '%s', '%s', '%s');"
+                            .formatted(userId.getText(), userNameText.getText(), nameText.getText(), passwordText.getText(), user);
+                    db.statement.executeUpdate(insertQuery);
+                    dispose();
+                    new LoginFrame();
+                } catch (Exception e) {
+                    System.out.println("Error in Sign-Up");
+                }
+            }
+            else{
+                System.out.println("Passwords don't match OR fields empty");
+            }
         }
         else{
             dispose();

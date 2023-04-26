@@ -1,4 +1,4 @@
-package elecricity.billing.system;
+package elecricity.billing.system.frames;
 
 import javax.swing.*;
 import java.awt.*;
