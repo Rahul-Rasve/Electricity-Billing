@@ -25,7 +25,7 @@ public class AdminFrame extends JFrame {
         //user cannot resize the frame
         setResizable(false);
 
-        //set the frame sie to max
+        //set the frame size to max
         setExtendedState(MAXIMIZED_BOTH);
 
         //center the splash screen

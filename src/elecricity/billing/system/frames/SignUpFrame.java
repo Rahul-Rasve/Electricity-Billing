@@ -11,11 +11,11 @@ import java.awt.event.ItemListener;
 
 public class SignUpFrame extends JFrame implements ActionListener {
 
-    private JComboBox<String> optionValue;
+    private final JComboBox<String> optionValue;
 
-    private JButton signupButton, backButton;
+    private final JButton signupButton, backButton;
 
-    private JTextField userId, userNameText, nameText, passwordText, confirmPasswordText;
+    private final JTextField userId, userNameText, nameText, passwordText, confirmPasswordText;
 
     SignUpFrame(){
         super("Sign-Up");
@@ -138,24 +138,33 @@ public class SignUpFrame extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent event) {
         if(event.getSource() == signupButton){
-            if(passwordText.getText().equals(confirmPasswordText.getText()) && checkForNull()){
-                String user = optionValue.getSelectedItem().toString();
-                try {
-                    Database db = new Database();
-                    String insertQuery = "INSERT INTO SignUp VALUES ('%s', '%s', '%s', '%s', '%s');"
-                            .formatted(userId.getText(), userNameText.getText(), nameText.getText(), passwordText.getText(), user);
-                    db.statement.executeUpdate(insertQuery);
-                    dispose();
-                    new LoginFrame();
-                } catch (Exception e) {
-                    System.out.println("Error in Sign-Up");
+            if(passwordText.getText().equals(confirmPasswordText.getText())){
+                if(!checkForNull()){
+                    JOptionPane.showMessageDialog(null, "Something is missing. Try again!", "Failed", JOptionPane.WARNING_MESSAGE);
+                }
+                else {
+                    String user = optionValue.getSelectedItem().toString();
+                    try {
+                        Database db = new Database();
+                        String insertQuery = "INSERT INTO Users VALUES ('%s', '%s', '%s', '%s', '%s');"
+                                .formatted(userId.getText(), userNameText.getText(), nameText.getText(), passwordText.getText(), user);
+                        db.statement.executeUpdate(insertQuery);
+
+                        JOptionPane.showMessageDialog(null, "Sign-Up Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                        dispose();
+                        new LoginFrame();
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, "Sign-Up Failed", "Error", JOptionPane.ERROR_MESSAGE);
+                        ;
+                    }
                 }
             }
             else{
-                System.out.println("Passwords don't match OR fields empty");
+                JOptionPane.showMessageDialog(null, "Passwords don't match. Try again!", "Failed", JOptionPane.ERROR_MESSAGE);
             }
         }
-        else{
+        else if(event.getSource() == backButton){
             dispose();
             new LoginFrame();
         }

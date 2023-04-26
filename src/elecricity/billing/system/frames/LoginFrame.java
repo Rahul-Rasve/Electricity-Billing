@@ -1,17 +1,22 @@
 package elecricity.billing.system.frames;
 
+import elecricity.billing.system.server.Database;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.util.Map;
 import java.util.Objects;
 
 public class LoginFrame extends JFrame implements ActionListener {
 
-    private JTextField usernameText, passwordText;
-    private JComboBox<String> userTypeOption;
+    private final JTextField usernameText;
+    private final JTextField passwordText;
+    private final JComboBox<String> userTypeOption;
 
-    private JButton loginButton, cancelButton, signupButton;
+    private final JButton loginButton, cancelButton, signupButton;
 
     public String getUsernameText() {
         return usernameText.getText();
@@ -90,17 +95,56 @@ public class LoginFrame extends JFrame implements ActionListener {
         setVisible(true);
     }
 
+    public boolean checkForNull(){
+        return !usernameText.getText().equals("") &&
+                !passwordText.getText().equals("");
+    }
+
     @Override
-    public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == signupButton){
+    public void actionPerformed(ActionEvent event) {
+        if(event.getSource() == signupButton){
             dispose();
             new SignUpFrame();
         }
-        else if(e.getSource() == cancelButton){
+        else if(event.getSource() == cancelButton){
             dispose();
         }
-        else{
+        else if(event.getSource() == loginButton){
+            if(checkForNull()){
+                String user = userTypeOption.getSelectedItem().toString();
+                try {
+                    Database db = new Database();
+                    String searchQuery = "SELECT username,password,usertype FROM Users WHERE username = '%s'; "
+                            .formatted(usernameText.getText());
+                    ResultSet searchResult = db.statement.executeQuery(searchQuery);
 
+                    if(searchResult.next()) {
+                        String username = searchResult.getString("username");
+                        String password = searchResult.getString("password");
+                        String userChoice = searchResult.getString("usertype");
+
+                        if (usernameText.getText().equals(username) &&
+                                passwordText.getText().equals(password) &&
+                                userTypeOption.getSelectedItem().toString().equals(userChoice)
+                        ) {
+                            JOptionPane.showMessageDialog(null, "Login Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+                            dispose();
+                            new AdminFrame();
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(null, "Invalid Credentials. Try again!", "Failed", JOptionPane.ERROR_MESSAGE);
+                        }
+                    } else {
+                        throw new Exception();
+                    }
+                } catch(Exception e){
+                    JOptionPane.showMessageDialog(null, "Network Failure. Try again!", "Error", JOptionPane.ERROR_MESSAGE);
+                    System.out.println(e.toString());
+                }
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Something is missing. Try again!", "Failed", JOptionPane.WARNING_MESSAGE);
+            }
         }
     }
 
