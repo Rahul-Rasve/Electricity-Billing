@@ -7,7 +7,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
-import java.util.Map;
 import java.util.Objects;
 
 public class LoginFrame extends JFrame implements ActionListener {
@@ -77,6 +76,10 @@ public class LoginFrame extends JFrame implements ActionListener {
         loginButton.addActionListener(this);
         add(loginButton);
 
+        JLabel signupMsg = new JLabel("Don't have an account? SignUp here.");
+        signupMsg.setBounds(frameWidth/2+frameWidth/8 ,frameHeight/8+230, frameWidth/2, frameHeight/20);
+        add(signupMsg);
+
         signupButton = new JButton("SignUp");
         signupButton.setBounds(frameWidth/2+frameWidth/5 ,frameHeight/8+250, frameWidth/8, frameHeight/20);
         signupButton.addActionListener(this);
@@ -129,13 +132,14 @@ public class LoginFrame extends JFrame implements ActionListener {
                         ) {
                             JOptionPane.showMessageDialog(null, "Login Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
                             dispose();
-                            new AdminFrame();
+                            if(userChoice.equals("Admin")) new AdminFrame();
+                            else new UserFrame();
                         }
                         else{
                             JOptionPane.showMessageDialog(null, "Invalid Credentials. Try again!", "Failed", JOptionPane.ERROR_MESSAGE);
                         }
                     } else {
-                        throw new Exception();
+                        JOptionPane.showMessageDialog(null, "No User Found!", "Failed", JOptionPane.ERROR_MESSAGE);
                     }
                 } catch(Exception e){
                     JOptionPane.showMessageDialog(null, "Network Failure. Try again!", "Error", JOptionPane.ERROR_MESSAGE);
