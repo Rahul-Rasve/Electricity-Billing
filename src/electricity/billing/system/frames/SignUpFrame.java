@@ -156,7 +156,6 @@ public class SignUpFrame extends JFrame implements ActionListener {
                         new LoginFrame();
                     } catch (Exception e) {
                         JOptionPane.showMessageDialog(null, "Sign-Up Failed", "Error", JOptionPane.ERROR_MESSAGE);
-                        ;
                     }
                 }
             }

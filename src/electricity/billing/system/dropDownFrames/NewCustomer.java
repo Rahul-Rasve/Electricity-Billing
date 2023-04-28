@@ -1,19 +1,22 @@
 package electricity.billing.system.dropDownFrames;
 
 import electricity.billing.system.frames.AdminFrame;
+import electricity.billing.system.server.Database;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class NewCustomer extends JFrame implements ActionListener {
 
-    private int meterNumberValue = (int) (Math.random() * 90000) + 10000;
+    private final int rndNum = (int) (Math.random() * 90000) + 10000;
+    private final String meterNumberValue = Integer.toString(rndNum);
 
-    private JButton nextButton, cancelButton;
+    private final JButton nextButton, cancelButton;
 
-    private JTextField newCustomerText, addressText, cityText, stateText, emailText, phoneText;
+    private final JTextField nameText, addressText, cityText, stateText, emailText, phoneText;
 
     public NewCustomer(){
         super("New Customer");
@@ -43,13 +46,13 @@ public class NewCustomer extends JFrame implements ActionListener {
         add(heading);
 
         //labels and fields
-        JLabel newCustomer = new JLabel("New Customer:");
-        newCustomer.setBounds(labelX, frameHeight/20+30, labelWidth, labelFieldHeight);
-        add(newCustomer);
+        JLabel name = new JLabel("Name:");
+        name.setBounds(labelX, frameHeight/20+30, labelWidth, labelFieldHeight);
+        add(name);
 
-        newCustomerText = new JTextField(20);
-        newCustomerText.setBounds(fieldX, frameHeight/20+30, fieldWidth, labelFieldHeight);
-        add(newCustomerText);
+        nameText = new JTextField(20);
+        nameText.setBounds(fieldX, frameHeight/20+30, fieldWidth, labelFieldHeight);
+        add(nameText);
 
         JLabel meterNumber = new JLabel("Meter Number:");
         meterNumber.setBounds(labelX, frameHeight/20+80, labelWidth, labelFieldHeight);
@@ -87,7 +90,7 @@ public class NewCustomer extends JFrame implements ActionListener {
         email.setBounds(labelX, frameHeight/20+280, labelWidth, labelFieldHeight);
         add(email);
 
-        emailText = new JTextField(20);
+        emailText = new JTextField(40);
         emailText.setBounds(fieldX, frameHeight/20+280, fieldWidth, labelFieldHeight);
         add(emailText);
 
@@ -95,7 +98,7 @@ public class NewCustomer extends JFrame implements ActionListener {
         phone.setBounds(labelX, frameHeight/20+330, labelWidth, labelFieldHeight);
         add(phone);
 
-        phoneText = new JTextField(20);
+        phoneText = new JTextField(10);
         phoneText.setBounds(fieldX, frameHeight/20+330, fieldWidth, labelFieldHeight);
         add(phoneText);
 
@@ -121,14 +124,46 @@ public class NewCustomer extends JFrame implements ActionListener {
         setVisible(true);
     }
 
+    public boolean checkForNull(){
+        return !nameText.getText().isEmpty() &&
+                !addressText.getText().isEmpty() &&
+                !cityText.getText().isEmpty() &&
+                !stateText.getText().isEmpty() &&
+                !emailText.getText().isEmpty() &&
+                !phoneText.getText().isEmpty();
+    }
+
     @Override
     public void actionPerformed(ActionEvent event) {
         if(event.getSource() == cancelButton){
             dispose();
             new AdminFrame();
         }
-        else{
-            dispose();
+        else if(event.getSource() == nextButton){
+            String nullStr = "";
+            String user = "Customer";
+            if(checkForNull()) {
+                try {
+                    Database db = new Database();
+                    String insertQuery = "INSERT INTO NewCustomer VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s');"
+                            .formatted(nameText.getText(), meterNumberValue, addressText.getText(), cityText.getText(), stateText.getText(), emailText.getText(), phoneText.getText());
+                    String insertIntoUsersTable = "INSERT INTO Users VALUES ('%s', '%s', '%s', '%s', '%s');"
+                            .formatted(meterNumberValue, nullStr, nameText.getText(), nullStr, user);
+                    db.statement.executeUpdate(insertQuery);
+                    db.statement.executeUpdate(insertIntoUsersTable);
+
+                    JOptionPane.showMessageDialog(null, "New Customer Added Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                    dispose();
+                    new MeterInfo(meterNumberValue);
+                } catch (Exception e) {
+                    System.out.println(e.toString());
+                    JOptionPane.showMessageDialog(null, "Some Error Occurred", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "Something is missing. Try again!", "Failed", JOptionPane.WARNING_MESSAGE);
+            }
         }
     }
 
