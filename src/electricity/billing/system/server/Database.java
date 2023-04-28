@@ -1,4 +1,4 @@
-package elecricity.billing.system.server;
+package electricity.billing.system.server;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

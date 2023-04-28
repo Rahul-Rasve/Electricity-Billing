@@ -1,6 +1,6 @@
-package elecricity.billing.system.frames;
+package electricity.billing.system.frames;
 
-import elecricity.billing.system.server.Database;
+import electricity.billing.system.server.Database;
 
 import javax.swing.*;
 import java.awt.*;

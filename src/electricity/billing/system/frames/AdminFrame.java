@@ -1,11 +1,11 @@
-package elecricity.billing.system.frames;
+package electricity.billing.system.frames;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class AdminFrame extends JFrame {
 
-    AdminFrame(){
+    public AdminFrame(){
         super("Electricity Billing System");
 
         //set a flowlayout
@@ -35,16 +35,16 @@ public class AdminFrame extends JFrame {
 
         //set menubar items
         JMenu menu = new JMenu("Menu");
-        menu.setFont(menuBarTextFont);
+        menu.setFont(menuBarTextFont);  menu.setVisible(true);
         menuBar.add(menu);
         JMenu info = new JMenu("Information");
-        info.setFont(menuBarTextFont);
+        info.setFont(menuBarTextFont);  info.setVisible(false);
         menuBar.add(info);
         JMenu user = new JMenu("User");
-        user.setFont(menuBarTextFont);
+        user.setFont(menuBarTextFont);  user.setVisible(false);
         menuBar.add(user);
         JMenu bill = new JMenu("Bill");
-        bill.setFont(menuBarTextFont);
+        bill.setFont(menuBarTextFont);  bill.setVisible(false);
         menuBar.add(bill);
         JMenu utilities = new JMenu("Utilities");
         utilities.setFont(menuBarTextFont);
