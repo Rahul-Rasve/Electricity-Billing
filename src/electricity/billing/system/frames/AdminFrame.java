@@ -2,8 +2,10 @@ package electricity.billing.system.frames;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class AdminFrame extends JFrame {
+public class AdminFrame extends JFrame implements ActionListener {
 
     public AdminFrame(){
         super("Electricity Billing System");
@@ -109,6 +111,10 @@ public class AdminFrame extends JFrame {
         setLocationRelativeTo(null);
 
         setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent event) {
     }
 
     public static void main(String[] args) {

@@ -2,6 +2,7 @@ package electricity.billing.system.server;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class Database {
@@ -13,7 +14,7 @@ public class Database {
         //connection made through JDBC, with MySQL
         try {
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Electricity_Billing", "root", "msor6157");
-            statement = connection.createStatement();
+            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             System.out.println("Connection Established");
         } catch (Exception e) {
             System.out.println("Connection not Established");
