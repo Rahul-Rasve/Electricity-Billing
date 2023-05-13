@@ -40,13 +40,13 @@ public class AdminFrame extends JFrame implements ActionListener {
         menu.setFont(menuBarTextFont);  menu.setVisible(true);
         menuBar.add(menu);
         JMenu info = new JMenu("Information");
-        info.setFont(menuBarTextFont);  info.setVisible(false);
+        info.setFont(menuBarTextFont);  info.setVisible(true);
         menuBar.add(info);
         JMenu user = new JMenu("User");
-        user.setFont(menuBarTextFont);  user.setVisible(false);
+        user.setFont(menuBarTextFont);  user.setVisible(true);
         menuBar.add(user);
         JMenu bill = new JMenu("Bill");
-        bill.setFont(menuBarTextFont);  bill.setVisible(false);
+        bill.setFont(menuBarTextFont);  bill.setVisible(true);
         menuBar.add(bill);
         JMenu utilities = new JMenu("Utilities");
         utilities.setFont(menuBarTextFont);
