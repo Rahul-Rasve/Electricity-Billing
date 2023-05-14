@@ -125,7 +125,7 @@ public class MeterInfo extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Meter Information Added Successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
 
                 dispose();
-                new AdminFrame();
+                new AdminFrame("Admin");
             } catch(Exception e){
                 JOptionPane.showMessageDialog(null, "Some Error Occurred.", "Error", JOptionPane.ERROR_MESSAGE);
                 System.out.println(e.toString());

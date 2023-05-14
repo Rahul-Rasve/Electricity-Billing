@@ -4,12 +4,13 @@ import electricity.billing.system.server.Database;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
+import java.sql.ResultSet;
+
 
 public class SignUpFrame extends JFrame implements ActionListener {
+
+    public boolean userFound = false;
 
     private final JComboBox<String> optionValue;
 
@@ -79,6 +80,29 @@ public class SignUpFrame extends JFrame implements ActionListener {
         nameText.setBounds(frameWidth/2+frameWidth/4, frameHeight/10+160, frameWidth/6, frameHeight/20);
         add(nameText);
 
+        userId.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                try {
+                    Database db = new Database();
+                    String nameQuery = "SELECT * FROM Users WHERE userid = '%s';".formatted(userId.getText());
+                    ResultSet resultSet = db.statement.executeQuery(nameQuery);
+                    if (resultSet.next()) {
+                        nameText.setText(resultSet.getString("name"));
+                        nameText.setEditable(false);
+                        userFound = true;
+                    }
+                } catch (Exception ex){
+                    System.out.println(ex.toString());
+                    System.out.println("Name error");
+                }
+            }
+        });
+
         JLabel password = new JLabel("Password:");
         password.setBounds(frameWidth/2+70, frameHeight/10+200, frameWidth/8, frameHeight/20);
         add(password);
@@ -88,7 +112,7 @@ public class SignUpFrame extends JFrame implements ActionListener {
         add(passwordText);
 
         JLabel confirmPassword = new JLabel("Confirm Password:");
-        confirmPassword.setBounds(frameWidth/2+70, frameHeight/10+240, frameWidth/8, frameHeight/20);
+        confirmPassword.setBounds(frameWidth/2+70, frameHeight/10+240, frameWidth/6, frameHeight/20);
         add(confirmPassword);
 
         confirmPasswordText = new JPasswordField(20);
@@ -139,13 +163,27 @@ public class SignUpFrame extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent event) {
         if(event.getSource() == signupButton){
             if(passwordText.getText().equals(confirmPasswordText.getText())){
+                Database db = new Database();
+                String user = optionValue.getSelectedItem().toString();
                 if(!checkForNull()){
                     JOptionPane.showMessageDialog(null, "Something is missing. Try again!", "Failed", JOptionPane.WARNING_MESSAGE);
                 }
-                else {
-                    String user = optionValue.getSelectedItem().toString();
+                else if(userFound){
+                    String updateQuery = "UPDATE Users SET username = '%s', password = '%s', usertype = '%s' WHERE userid = '%s';"
+                            .formatted(userNameText.getText(), passwordText.getText(), user, userId.getText());
                     try {
-                        Database db = new Database();
+                        db.statement.executeUpdate(updateQuery);
+
+                        JOptionPane.showMessageDialog(null, "Sign-Up Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                        dispose();
+                        new LoginFrame();
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, "Sign-Up Failed", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+                else {
+                    try {
                         String insertQuery = "INSERT INTO Users VALUES ('%s', '%s', '%s', '%s', '%s');"
                                 .formatted(userId.getText(), userNameText.getText(), nameText.getText(), passwordText.getText(), user);
                         db.statement.executeUpdate(insertQuery);

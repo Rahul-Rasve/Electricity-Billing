@@ -132,8 +132,7 @@ public class LoginFrame extends JFrame implements ActionListener {
                         ) {
                             JOptionPane.showMessageDialog(null, "Login Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
                             dispose();
-                            if(userChoice.equals("Admin")) new AdminFrame();
-                            else new UserFrame();
+                            new AdminFrame(userChoice);
                         }
                         else{
                             JOptionPane.showMessageDialog(null, "Invalid Credentials. Try again!", "Failed", JOptionPane.ERROR_MESSAGE);

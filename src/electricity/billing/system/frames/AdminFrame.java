@@ -7,8 +7,12 @@ import java.awt.event.ActionListener;
 
 public class AdminFrame extends JFrame implements ActionListener {
 
-    public AdminFrame(){
+    String accountType;
+
+    public AdminFrame(String accountType){
         super("Electricity Billing System");
+
+        this.accountType = accountType;
 
         //set a flowlayout
         setLayout(new FlowLayout());
@@ -38,23 +42,22 @@ public class AdminFrame extends JFrame implements ActionListener {
         //set menubar items
         JMenu menu = new JMenu("Menu");
         menu.setFont(menuBarTextFont);  menu.setVisible(true);
-        menuBar.add(menu);
+
         JMenu info = new JMenu("Information");
         info.setFont(menuBarTextFont);  info.setVisible(true);
-        menuBar.add(info);
+
         JMenu user = new JMenu("User");
         user.setFont(menuBarTextFont);  user.setVisible(true);
-        menuBar.add(user);
+
         JMenu bill = new JMenu("Bill");
         bill.setFont(menuBarTextFont);  bill.setVisible(true);
-        menuBar.add(bill);
+
         JMenu utilities = new JMenu("Utilities");
         utilities.setFont(menuBarTextFont);
-        menuBar.add(utilities);
+
         JMenu exit = new JMenu("EXIT");
         exit.setForeground(Color.red);
         exit.setFont(menuBarTextFont);
-        menuBar.add(exit);
 
         //add items to the menu drop-down
         JMenuItem newCustomer = new JMenuItem("New Customer");
@@ -104,6 +107,18 @@ public class AdminFrame extends JFrame implements ActionListener {
         logout.setFont(menuTextFont);
         exit.add(logout);
 
+        //menubar items
+        if(accountType.equals("Admin")){
+            menuBar.add(menu);
+        }
+        else {
+            menuBar.add(user);
+            menuBar.add(info);
+            menuBar.add(bill);
+        }
+        menuBar.add(utilities);
+        menuBar.add(exit);
+
         //user cannot resize the frame
         setResizable(false);
 
@@ -118,6 +133,6 @@ public class AdminFrame extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        new AdminFrame();
+        new AdminFrame("");
     }
 }

@@ -112,7 +112,7 @@ public class CustomerDetails extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent event) {
         if(event.getSource() == closeButton){
             dispose();
-            new AdminFrame();
+            new AdminFrame("Admin");
         }
         else if(event.getSource() == searchButton){
             String searchQuery;
