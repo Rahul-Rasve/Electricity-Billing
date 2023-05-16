@@ -156,7 +156,7 @@ public class CalculateBill extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent event) {
         if (event.getSource() == cancelButton) {
             dispose();
-            new AdminFrame("Admin");
+            new AdminFrame("Admin", meterNumValue.getSelectedItem().toString());
         }
         else if(event.getSource() == submitButton){
             int totalBill = 0;

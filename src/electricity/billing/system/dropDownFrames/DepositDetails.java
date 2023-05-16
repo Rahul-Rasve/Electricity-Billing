@@ -111,7 +111,7 @@ public class DepositDetails extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent event) {
         if(event.getSource() == closeButton){
             dispose();
-            new AdminFrame("Admin");
+            new AdminFrame("Admin", meterNumValue.getSelectedItem().toString());
         }
         else if(event.getSource() == searchButton){
             String searchQuery = "SELECT * FROM Bill WHERE meterno = '%s' AND month = '%s'"

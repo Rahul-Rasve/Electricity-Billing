@@ -117,7 +117,7 @@ public class LoginFrame extends JFrame implements ActionListener {
                 String user = userTypeOption.getSelectedItem().toString();
                 try {
                     Database db = new Database();
-                    String searchQuery = "SELECT username,password,usertype FROM Users WHERE username = '%s'; "
+                    String searchQuery = "SELECT * FROM Users WHERE username = '%s'; "
                             .formatted(usernameText.getText());
                     ResultSet searchResult = db.statement.executeQuery(searchQuery);
 
@@ -125,6 +125,7 @@ public class LoginFrame extends JFrame implements ActionListener {
                         String username = searchResult.getString("username");
                         String password = searchResult.getString("password");
                         String userChoice = searchResult.getString("usertype");
+                        String meterNum = searchResult.getString("userid");
 
                         if (usernameText.getText().equals(username) &&
                                 passwordText.getText().equals(password) &&
@@ -132,7 +133,7 @@ public class LoginFrame extends JFrame implements ActionListener {
                         ) {
                             JOptionPane.showMessageDialog(null, "Login Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
                             dispose();
-                            new AdminFrame(userChoice);
+                            new AdminFrame(userChoice, meterNum);
                         }
                         else{
                             JOptionPane.showMessageDialog(null, "Invalid Credentials. Try again!", "Failed", JOptionPane.ERROR_MESSAGE);
