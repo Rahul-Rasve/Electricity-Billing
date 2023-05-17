@@ -177,16 +177,30 @@ public class AdminFrame extends JFrame implements ActionListener {
         }
         if(action.equals("Bill Details")){
             dispose();
+            new BillDetails(meterNumber);
         }
         if(action.equals("Generate Bill")){
             dispose();
         }
         if(action.equals("Calculator")){
+            try{
+                Runtime.getRuntime().exec("calc.exe");
+            } catch (Exception e){
+                System.out.println(e.toString());
+                System.out.println("error in calculator");
+            }
         }
         if(action.equals("Notepad")){
+            try{
+                Runtime.getRuntime().exec("notepad.exe");
+            } catch (Exception e){
+                System.out.println(e.toString());
+                System.out.println("error in notepad");
+            }
         }
         if(action.equals("Logout")){
             dispose();
+            new LoginFrame();
         }
     }
 
