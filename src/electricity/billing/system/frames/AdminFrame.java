@@ -166,6 +166,7 @@ public class AdminFrame extends JFrame implements ActionListener {
         }
         if(action.equals("Update Information")){
             dispose();
+            new UpdateInformation(meterNumber);
         }
         if(action.equals("View Information")){
             dispose();
@@ -181,10 +182,8 @@ public class AdminFrame extends JFrame implements ActionListener {
             dispose();
         }
         if(action.equals("Calculator")){
-            dispose();
         }
         if(action.equals("Notepad")){
-            dispose();
         }
         if(action.equals("Logout")){
             dispose();
