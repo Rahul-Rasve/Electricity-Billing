@@ -172,17 +172,21 @@ public class UpdateInformation extends JFrame implements ActionListener {
             try {
                 if(nullCheck()) {
                     Database db = new Database();
-                    String updateQuery = "UPDATE NewCustomer SET name='%s', address='%s', city='%s', state='%s', email='%s', phone='%s' WHERE meterno = '%s'"
+                    String updateQuery1 = "UPDATE NewCustomer SET name='%s', address='%s', city='%s', state='%s', email='%s', phone='%s' WHERE meterno = '%s'"
                             .formatted(nameValue.getText(), addressValue.getText(), cityValue.getText(), stateValue.getText(), emailValue.getText(), phoneValue.getText(), meterNumber);
-                    int result = db.statement.executeUpdate(updateQuery);
-                    if (result > 0) {
-                        JOptionPane.showMessageDialog(null, "Update Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    String updateQuery2 = "UPDATE Users SET name = '%s' WHERE userid = '%s';".formatted(nameValue.getText(), meterNumber);
+
+                    int result1 = db.statement.executeUpdate(updateQuery1);
+                    int result2 = db.statement.executeUpdate(updateQuery2);
+
+                    if (result1 > 0 && result2 > 0) {
+                        JOptionPane.showMessageDialog(null, "Information Updated Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
                         dispose();
                         new AdminFrame("Customer", meterNumber);
                     }
                 }
                 else {
-                    JOptionPane.showMessageDialog(null, "Check for empty fields of Internet Connection", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Check for empty fields or Internet Connection", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } catch (Exception e) {
                 System.out.println(e.toString());
