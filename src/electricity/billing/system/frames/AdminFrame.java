@@ -174,6 +174,7 @@ public class AdminFrame extends JFrame implements ActionListener {
         }
         if(action.equals("Pay Bill")){
             dispose();
+            new PayBill(meterNumber);
         }
         if(action.equals("Bill Details")){
             dispose();

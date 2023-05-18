@@ -32,18 +32,22 @@ public class BillDetails extends JFrame {
 
         JLabel name = new JLabel("Customer Name :");
         name.setBounds(frameWidth/10, 50, frameWidth/6, frameHeight/20);
+        name.setFont(new Font("Arial", Font.PLAIN, 15));
         add(name);
 
         nameValue = new JLabel();
-        nameValue.setBounds(frameWidth/10+frameWidth/8+10, 50, frameWidth/6, frameHeight/20);
+        nameValue.setBounds(frameWidth/10+frameWidth/8+30, 50, frameWidth/3, frameHeight/20);
+        nameValue.setFont(new Font("Arial", Font.BOLD, 15));
         add(nameValue);
 
         JLabel meter = new JLabel("Meter Number :");
-        meter.setBounds(frameWidth/10, 70, frameWidth/6, frameHeight/20);
+        meter.setBounds(frameWidth/10, 75, frameWidth/6, frameHeight/20);
+        meter.setFont(new Font("Arial", Font.PLAIN, 15));
         add(meter);
 
         meterValue = new JLabel(meterNumber);
-        meterValue.setBounds(frameWidth/10+frameWidth/8+10, 70, frameWidth/8, frameHeight/20);
+        meterValue.setBounds(frameWidth/10+frameWidth/8+30, 75, frameWidth/8, frameHeight/20);
+        meterValue.setFont(new Font("Arial", Font.BOLD, 15));
         add(meterValue);
 
         try {
@@ -60,7 +64,7 @@ public class BillDetails extends JFrame {
         JTable table= new JTable();
 
         try {
-            String query = "SELECT month, unit, totalbill, status FROM Bill WHERE meterno = '%s'".formatted(meterNumber);
+            String query = "SELECT month, unit, totalbill, status, year FROM Bill WHERE meterno = '%s'".formatted(meterNumber);
             ResultSet result = db.statement.executeQuery(query);
             table.setModel(DbUtils.resultSetToTableModel(result));
         } catch (Exception e) {

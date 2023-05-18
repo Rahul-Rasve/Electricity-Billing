@@ -11,6 +11,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 public class CalculateBill extends JFrame implements ActionListener {
 
@@ -74,6 +75,7 @@ public class CalculateBill extends JFrame implements ActionListener {
         }
         meterNumValue = new JComboBox<>(meterNumOptions);
         meterNumValue.setMaximumRowCount(4);
+        meterNumValue.setSelectedIndex(0);
         meterNumValue.setBounds(frameWidth/2+frameWidth/4, frameHeight/7, frameWidth/6, frameHeight/20);
         add(meterNumValue);
 
@@ -174,16 +176,18 @@ public class CalculateBill extends JFrame implements ActionListener {
                 System.out.println(e.toString());
             }
 
-            String billQuery = "INSERT INTO Bill VALUES ('%s', '%s', '%s', '%s', 'Not Paid');"
+            String billQuery = "INSERT INTO Bill VALUES ('%s', '%s', '%s', '%s', 'Not Paid', '%s');"
                     .formatted(meterNumValue.getSelectedItem(),
                             monthValue.getSelectedItem(),
                             unitConValue.getText(),
-                            totalBill);
+                            totalBill,
+                            LocalDate.now().getYear());
             try {
                 db.statement.executeUpdate(billQuery);
 
                 JOptionPane.showMessageDialog(null, "Bill Stored Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
                 dispose();
+                new AdminFrame("Admin", "");
             } catch (Exception e) {
                 System.out.println(e.toString());
             }

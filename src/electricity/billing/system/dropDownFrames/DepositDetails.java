@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
+import java.time.LocalDate;
 
 public class DepositDetails extends JFrame implements ActionListener {
 
@@ -114,8 +115,8 @@ public class DepositDetails extends JFrame implements ActionListener {
             new AdminFrame("Admin", meterNumValue.getSelectedItem().toString());
         }
         else if(event.getSource() == searchButton){
-            String searchQuery = "SELECT * FROM Bill WHERE meterno = '%s' AND month = '%s'"
-                    .formatted(meterNumValue.getSelectedItem(), monthValue.getSelectedItem());
+            String searchQuery = "SELECT * FROM Bill WHERE meterno = '%s' AND month = '%s' AND year = '%s'"
+                    .formatted(meterNumValue.getSelectedItem(), monthValue.getSelectedItem(), LocalDate.now().getYear());
             try {
                 ResultSet resultSet = db.statement.executeQuery(searchQuery);
                 table.setModel(DbUtils.resultSetToTableModel(resultSet));
