@@ -1,5 +1,6 @@
 # Electricity-Billing
 A java application.
+Executable File available in the 'out' folder.
 
 <p>Login Frame</p>
 <img src = "https://github.com/Rahul-Rasve/Electricity-Billing/blob/main/Screenshots/login.png">
