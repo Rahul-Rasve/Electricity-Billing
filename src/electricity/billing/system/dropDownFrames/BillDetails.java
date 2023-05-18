@@ -1,15 +1,20 @@
 package electricity.billing.system.dropDownFrames;
 
+import electricity.billing.system.frames.AdminFrame;
 import electricity.billing.system.server.Database;
 import net.proteanit.sql.DbUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 
-public class BillDetails extends JFrame {
+public class BillDetails extends JFrame implements ActionListener {
 
     public JLabel nameValue, meterValue;
+
+    public JButton closeButton;
 
     public String meterNumber;
 
@@ -29,6 +34,11 @@ public class BillDetails extends JFrame {
         heading.setFont(new Font("Arial Black", Font.PLAIN, frameWidth/30));
         heading.setBounds(frameWidth/5*2, 10, frameWidth/2, frameHeight/20);
         add(heading);
+
+        closeButton = new JButton("Close");
+        closeButton.setBounds(frameWidth- (frameWidth/8+20), 10, frameWidth/8, frameHeight/25);
+        closeButton.addActionListener(this);
+        add(closeButton);
 
         JLabel name = new JLabel("Customer Name :");
         name.setBounds(frameWidth/10, 50, frameWidth/6, frameHeight/20);
@@ -83,6 +93,15 @@ public class BillDetails extends JFrame {
         setLayout(null);
         setVisible(true);
     }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == closeButton){
+            dispose();
+            new AdminFrame("Customer", meterNumber);
+        }
+    }
+
 
     public static void main(String[] args) {
         new BillDetails("42822");

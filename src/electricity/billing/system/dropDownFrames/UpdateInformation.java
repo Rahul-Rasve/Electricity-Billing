@@ -108,12 +108,12 @@ public class UpdateInformation extends JFrame implements ActionListener {
 
         //button
         submitButton = new JButton("Submit");
-        submitButton.setBounds(frameWidth/10+frameWidth/4+40, frameHeight/5+220, frameWidth/13, frameHeight/25);
+        submitButton.setBounds(frameWidth/10+frameWidth/4+40, frameHeight/5+230, frameWidth/13, frameHeight/25);
         submitButton.addActionListener(this);
         add(submitButton);
 
         cancelButton = new JButton("Cancel");
-        cancelButton.setBounds(frameWidth/10+frameWidth/3+80, frameHeight/5+220, frameWidth/13, frameHeight/25);
+        cancelButton.setBounds(frameWidth/10+frameWidth/3+80, frameHeight/5+230, frameWidth/13, frameHeight/25);
         cancelButton.addActionListener(this);
         add(cancelButton);
 

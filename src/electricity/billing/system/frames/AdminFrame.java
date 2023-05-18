@@ -182,6 +182,7 @@ public class AdminFrame extends JFrame implements ActionListener {
         }
         if(action.equals("Generate Bill")){
             dispose();
+            new GenerateBill(meterNumber);
         }
         if(action.equals("Calculator")){
             try{
