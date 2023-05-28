@@ -13,7 +13,7 @@ public class Database {
     public Database(){
         //connection made through JDBC, with MySQL
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Electricity_Billing", "[db name]", "[pssword]");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Electricity_Billing", "[db name]", "[password]");
             statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             System.out.println("Connection Established");
         } catch (Exception e) {
